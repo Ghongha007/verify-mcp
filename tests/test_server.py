@@ -65,6 +65,29 @@ class Inputs(unittest.TestCase):
         text, err = s.call_tool("sun_position", {"latitude": 0, "longitude": 0, "time": "2026-03-20T12:07Z", "extra": 1})
         self.assertFalse(err)
 
+class Wayback(unittest.TestCase):
+    def run_with(self, replies):
+        orig, seq = s._json, list(replies)
+        s._json = lambda url, **kw: seq.pop(0)
+        try:
+            return s.call_tool("wayback_closest", {"url": "https://example.org/", "date": "2010-01-01"})
+        finally:
+            s._json = orig
+    def test_service_timeout_is_an_error_not_no_snapshot(self):
+        timeout = {"archived_snapshots": {}, "error": {"code": "timeout", "message": "client timeout at 5.0 seconds"}}
+        text, err = self.run_with([timeout, timeout])
+        self.assertTrue(err)
+        self.assertIn("not evidence", text)
+    def test_retry_then_success(self):
+        ok = {"archived_snapshots": {"closest": {"available": True, "url": "http://web.archive.org/web/20100101000000/http://example.org/", "timestamp": "20100101000000", "status": "200"}}}
+        text, err = self.run_with([{"archived_snapshots": {}, "error": {"code": "timeout"}}, ok])
+        self.assertFalse(err)
+        self.assertIn("https://web.archive.org/web/20100101000000", text)
+    def test_genuinely_no_snapshot(self):
+        text, err = self.run_with([{"archived_snapshots": {}}])
+        self.assertFalse(err)
+        self.assertIn("No Wayback Machine snapshot", text)
+
 class Sun(unittest.TestCase):
     def test_known_noon_elevations(self):
         text, err = s.call_tool("sun_position", {"latitude": 28.6139, "longitude": 77.209, "time": "2026-06-21T12:23+05:30"})

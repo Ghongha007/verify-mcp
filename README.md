@@ -92,7 +92,7 @@ If you are checking a link sent by a hostile party, remember that `expand_link` 
 - The public services behind these tools rate-limit and go down. `crt.sh` in particular is often slow or returns errors; try again later.
 - RDAP is not offered by every top-level domain, and many country-code domains return little.
 - The sun maths ignores atmospheric refraction, so it is approximate when the sun is within about 3 degrees of the horizon.
-- The protocol layer is written by hand against MCP versions 2024-11-05 to 2025-06-18 and supports tools over stdio only. It has been tested with scripted JSON-RPC messages (see `tests/`); it has not yet been tested inside a real MCP client, so please report problems.
+- The protocol layer is written by hand against MCP versions 2024-11-05 to 2025-06-18 and supports tools over stdio only. It has been tested with scripted JSON-RPC messages (see `tests/`) and with the official MCP Python client library (version 2.3.0): handshake, tool listing and tool calls all worked. It has not yet been tried inside Claude Desktop or other chat applications, so please report problems.
 
 ## Tests
 

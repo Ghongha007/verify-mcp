@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "verify-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "A small MCP server with read-only, keyless lookups for verification work"
 readme = "README.md"
 requires-python = ">=3.10"

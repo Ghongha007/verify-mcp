@@ -114,7 +114,14 @@ def wayback_closest(url: str, date: str = "") -> str:
     stamp = "".join(c for c in date if c.isdigit())
     if stamp:
         q += "&timestamp=" + stamp
-    snap = (_json(q).get("archived_snapshots") or {}).get("closest") or {}
+    data = _json(q)
+    if data.get("error"):          # the service reports its own timeouts inside a normal reply
+        data = _json(q)
+    if data.get("error"):
+        raise ToolError("the Wayback Machine did not answer in time ("
+                        + str((data["error"] or {}).get("message", "error")) + "). "
+                        "This is not evidence that no snapshot exists; try again, or use wayback_history.")
+    snap = (data.get("archived_snapshots") or {}).get("closest") or {}
     if not snap.get("available"):
         return f"No Wayback Machine snapshot found for {url}."
     return f"Closest snapshot: {snap['url'].replace('http://', 'https://', 1)}\nCaptured: {_ts(snap.get('timestamp', ''))}\nHTTP status at capture: {snap.get('status', '?')}"
