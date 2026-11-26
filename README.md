@@ -108,7 +108,7 @@ The tests run offline.
 - [ai-for-osint](https://github.com/Ghongha007/ai-for-osint): AI tools for investigators, with where each runs and its known limits
 - [chat2net](https://github.com/Ghongha007/chat2net): turn a chat or social-media export into a Gephi network
 - [osint-skills](https://github.com/Ghongha007/osint-skills): agent skills for verification, geolocation, chronolocation and fact-checking
-- [osint-visuals](https://github.com/Ghongha007/osint-visuals): agent skills for evidence graphics: ship and flight tracks, shadow diagrams, 3D scenes, satellite before/after and scroll stories
+- [osint-visuals](https://github.com/Ghongha007/osint-visuals): agent skills for evidence graphics: ship and flight tracks, shadow diagrams, 3D scenes, satellite before/after, scroll stories and source-linked networks
 
 ## Licence
 
